@@ -29,7 +29,7 @@
     </nav>
     <div class="container">
         <p>
-                {{ usuario.username }}
+                {{ usuario.name }}
         </p>
         <p>
                 {{ usuario.email }}
@@ -38,6 +38,7 @@
   </div>
 </template>
 <script>
+import VueJwtDecode from 'vue-jwt-decode'   //Se importa el paquete para decodificar el json web token
 import swal from 'sweetalert';    //Se importan librerias para generar mensajes de alerta
 export default {
   name: "HomePage",
@@ -49,12 +50,15 @@ export default {
   methods: {
     darDatosUsuario()
         {
-            let usuario = localStorage.getItem("usuario");  //Se leen los datos de usario desde el almacenamiento local
+         //   let usuario = localStorage.getItem("usuario");  //Se leen los datos de usario desde el almacenamiento local
             let token = localStorage.getItem("jwt");        //Se lee el token desde el almacenamiento local
-            console.log(JSON.parse(usuario));
+            let usuario = VueJwtDecode.decode(token)  //Se decodifica el token para obtener los datos del usuario
+            //console.log(JSON.parse(usuario));
+            console.log(usuario);
             if(token)
                 {
-                    this.usuario = JSON.parse(usuario);
+                   // this.usuario = JSON.parse(usuario);
+                   this.usuario = usuario;
                 }
 
         },
